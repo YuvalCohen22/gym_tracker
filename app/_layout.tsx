@@ -46,7 +46,7 @@ function Gate(){
     // Decide where to send the user
     if(!onboarded){ router.replace("/(setup)/onboarding"); return; }
     if(onboarded && !setupDone){ router.replace("/(setup)/setup-wizard"); return; }
-    if(setupDone && !user){ router.replace("/(auth)/login"); return; }
+    if(setupDone && !user){ router.replace("/(setup)/onboarding"); return; }  // needs to change back to /(auth)/login
     if(setupDone && user){ if(pathname?.startsWith("/(setup)") || pathname?.startsWith("/(auth)")) router.replace("/(tabs)"); }
   },[ready, loading, onboarded, setupDone, user]);
 

@@ -21,26 +21,34 @@ export default function Onboarding(){
   const Next = ({ index }:{ index:number }) => (
     <TouchableOpacity onPress={async()=>{
       if(index < PAGES.length-1){ ref.current?.scrollToIndex({ index:index+1, animated:true }); }
-      else { await storage.set(KEYS.onboardingDone,true); router.replace("../(setup)/setup-wizard"); }
+      else { await storage.set(KEYS.onboardingDone,true); router.replace("/(setup)/setup-wizard"); }
     }} style={{ marginTop:SPACING.lg, backgroundColor:COLORS.accent, paddingVertical:14, borderRadius:18, alignItems:"center" }}>
       <Text style={{ color: COLORS.fg, fontWeight:"800" }}>{index < PAGES.length-1? "Next":"Get Started"}</Text>
     </TouchableOpacity>
   );
 
   return (
-    <View style={[styles.container,{ padding:SPACING.lg }]}> 
-      <FlatList ref={ref} data={PAGES} keyExtractor={(i)=>i.key} horizontal pagingEnabled showsHorizontalScrollIndicator={false}
+    <View style={styles.container}> 
+      <FlatList 
+        ref={ref} 
+        data={PAGES} 
+        keyExtractor={(i)=>i.key} 
+        horizontal 
+        pagingEnabled 
+        showsHorizontalScrollIndicator={false}
         renderItem={({ item, index })=> (
-          <View style={{ width, padding:SPACING.lg, justifyContent:"center" }}>
+          <View style={{ width, paddingHorizontal: SPACING.lg, justifyContent:"center", flex: 1 }}>
             <Text style={[styles.h1,{ marginBottom:10 }]}>{item.title}</Text>
             <Text style={styles.p}>{item.desc}</Text>
             <Next index={index} />
           </View>
         )}
       />
-      <TouchableOpacity onPress={async()=>{ await storage.set(KEYS.onboardingDone,true); router.replace("../(setup)/setup-wizard"); }}>
-        <Text style={{ color: COLORS.fgMuted, textAlign:"center", marginTop:SPACING.md }}>Skip</Text>
-      </TouchableOpacity>
+      <View style={{ paddingHorizontal: SPACING.lg, paddingBottom: SPACING.lg }}>
+        <TouchableOpacity onPress={async()=>{ await storage.set(KEYS.onboardingDone,true); router.replace("/(setup)/setup-wizard"); }}>
+          <Text style={{ color: COLORS.fgMuted, textAlign:"center", marginTop:SPACING.md }}>Skip</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
