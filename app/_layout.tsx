@@ -30,7 +30,8 @@ function Gate(){
   useEffect(()=>{(async()=>{
     if(user){
       const enabled = await storage.get<boolean>(KEYS.biometricsEnabled);
-      if(!enabled){
+      const prompted = await storage.get<boolean>(KEYS.biometricsPrompted);
+      if(!enabled && !prompted){
         const ok = await LocalAuthentication.hasHardwareAsync();
         const en = await LocalAuthentication.isEnrolledAsync();
         if(ok && en){
